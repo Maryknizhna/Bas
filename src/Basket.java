@@ -2,7 +2,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.io.*;
-public class Basket {
+public class Basket implements Serializable {
     private String[] productName;
     private int[] prices;
     private int[] productCount;
@@ -38,11 +38,11 @@ public class Basket {
     protected void saveText(File textFile) {
         try (PrintWriter out = new PrintWriter(textFile);) {
             for (int i = 0; i < productName.length; i++) {
-                System.out.println(productName[i] + " " + prices[i] + " " + productCount[i]);
+                out.println(productName[i] + " " + prices[i] + " " + productCount[i]);
             }
 
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("Файл не найден!");
+            throw new RuntimeException("Файл не найден!!!");
 
         }
 
@@ -75,6 +75,26 @@ public class Basket {
 
         for (int i = 0; i < productName.length; i++) {
             System.out.println((i + 1) + "." + productName[i] + " - " + prices[i] + " рублей");
+        }
+    }
+
+    public void saveBin(File file) {
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file))) {
+            objectOutputStream.writeObject(this);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Basket loadFromBinFile(File binFile) throws IOException {
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(binFile))) {
+            Basket basket = (Basket) objectInputStream.readObject();
+            basket.printCart();
+            return basket;
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
