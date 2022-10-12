@@ -47,7 +47,8 @@ public class Main {
 
             basket.addToCart(productNum, productAmount);
         }
-        basket.saveText(file);
+
         basket.printCart();
+        basket.saveText(file);
     }
 }

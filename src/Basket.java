@@ -38,7 +38,7 @@ public class Basket {
     protected void saveText(File textFile) {
         try (PrintWriter out = new PrintWriter(textFile);) {
             for (int i = 0; i < productName.length; i++) {
-                System.out.println(productName[i] + " " + prices[i] + " " + productCount[i]);
+                out.println(productName[i] + " " + prices[i] + " " + productCount[i]);
             }
 
         } catch (FileNotFoundException e) {
@@ -77,6 +77,7 @@ public class Basket {
             System.out.println((i + 1) + "." + productName[i] + " - " + prices[i] + " рублей");
         }
     }
+
 
 
 }
